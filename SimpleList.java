@@ -79,9 +79,9 @@ public class SimpleList {
 			count--;
 		}
         if (count < Math.floor(.75 * list.length) == true) { //if array is too big, meaning that count is less than 75 percent of list length
-        	int[] tempList = new int[count]; //create new array with amount of elements
-        	for(int i = 0; i < count; i++) { //copy elements in new array
-        		tempList[i] = list[i];
+        	int[] tempList = new int[(int)Math.floor(list.length * 0.75)]; //create new array with amount of elements equal to 75 percent of list length
+        	for(int index = 0; index < count; index++) { //copy elements in new array
+        		tempList[index] = list[index];
         	}
         	list = tempList; //set list to new array
         }
@@ -105,8 +105,8 @@ public class SimpleList {
 	
 	public String toString() {
 		String toString = "";
-		for(int index = 0; index < list.length; index++) {
-			if(index == list.length - 1) { // do not print space for last element
+		for(int index = 0; index < count; index++) {
+			if(index == count - 1) { // do not print space for last element
 				toString += list[index];
 			}
 			else { 
@@ -125,7 +125,7 @@ public class SimpleList {
 	public int search(int number) {
 		int indexToReturn = -1;
 		
-		for(int index = 0; index < list.length; index++) {
+		for(int index = 0; index < count; index++) {
 			if(list[index] == number) {
 				indexToReturn = index;
 				index = list.length + 1; //leave the loop
@@ -156,7 +156,7 @@ public class SimpleList {
 	 */
 	public int last() {
 		if (count > 0) {
-			return list[list.length - 1];
+			return list[count - 1];
 		}
 		else {
 			return -1;
@@ -178,14 +178,16 @@ public class SimpleList {
 	 * Append the passed number to the end of the list. 
 	 **/
 	public void append(int number) {
-		if(list.length == count) {
-		    int tempList[] = new int[(int) Math.floor(list.length * 1.5)];
-		    System.arraycopy(list, 0, tempList, 0, list.length); 
-		    list = tempList;
-		    list[count] = number;
+		if(list.length == count) { //if length of list is equal to number of elements, increase array size by 50 percent
+		    int tempList[] = new int[(int) Math.ceil(list.length * 1.5)];
+        	for(int index = 0; index < count; index++) { //copy elements in new array
+        		tempList[index] = list[index];
+        	}
+        	list = tempList; //set list to new array
+		    list[count] = number; //add element to end of array
 		    count++; 
 		}
-		else {
+		else { //append normally
 		    list[count] = number;
 		    count++; 
 		}
