@@ -3,12 +3,12 @@
  * 
  * @author Adi Kulkarni
  * Class ID: 304
- * Assignment #: 1 
+ * Assignment #: 2 
  * Description: This program is a simple list class that adds, removes, 
  * returns number of elements, searches, and returns a string of the array.
  */
 
-package assign1;
+package assign2;
 
 /**
  * Class
@@ -39,14 +39,20 @@ public class SimpleList {
 	 */
 	
 	public void add(int number) {
-        System.arraycopy(list, 0, list, 1, list.length - 1); //will shift the array elements by 1
-        list[0] = number; //adds number to beginning of array
-        if(count == 10) {
-        	//do nothing
-        }
-        else{
-            count++;	
-        }
+		if(list.length == count) { //if array is at capacity
+		    int tempList[] = new int[(int) Math.floor(list.length * 1.5)]; //create new array with 50 percent more elements
+		    System.arraycopy(list, 0, tempList, 0, list.length); //copy elements into new array
+		    list = tempList; //set list to new array
+		    System.arraycopy(list, 0, list, 1, list.length - 1); //will shift the array elements by 1
+		    list[0] = number; //add element to array
+		    count++; 
+		}
+		else {
+	        System.arraycopy(list, 0, list, 1, list.length - 1); //will shift the array elements by 1
+	        list[0] = number; //adds number to beginning of array
+	        count++;
+		}
+
 	}
 	
 	/**
@@ -72,6 +78,13 @@ public class SimpleList {
 			list[list.length - 1] = 0; //set last element to 0 because elements are shifted
 			count--;
 		}
+        if (count < Math.floor(.75 * list.length) == true) { //if array is too big, meaning that count is less than 75 percent of list length
+        	int[] tempList = new int[count]; //create new array with amount of elements
+        	for(int i = 0; i < count; i++) { //copy elements in new array
+        		tempList[i] = list[i];
+        	}
+        	list = tempList; //set list to new array
+        }
 	}
 	
 	/**
@@ -120,4 +133,62 @@ public class SimpleList {
 		}
 		return indexToReturn; //returns the index of the passed number
 	}
+	
+	/**
+	 * first() Method
+	 * 
+	 * @return first element of the list.
+	 */
+	
+	public int first() {
+		if(count > 0) {
+			return list[0];
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	/**
+	 * last() Method
+	 * 
+	 * @return last element of the list
+	 */
+	public int last() {
+		if (count > 0) {
+			return list[list.length - 1];
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	/**
+	 * size() Method
+	 * 
+	 * @return size of the list	 
+	 * */
+	public int size() {
+		return list.length;
+	}
+	
+	/**
+	 * append() Method
+	 * 
+	 * Append the passed number to the end of the list. 
+	 **/
+	public void append(int number) {
+		if(list.length == count) {
+		    int tempList[] = new int[(int) Math.floor(list.length * 1.5)];
+		    System.arraycopy(list, 0, tempList, 0, list.length); 
+		    list = tempList;
+		    list[count] = number;
+		    count++; 
+		}
+		else {
+		    list[count] = number;
+		    count++; 
+		}
+	}
+	
 }
